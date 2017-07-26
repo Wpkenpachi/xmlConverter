@@ -16,7 +16,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
-        <script src="x2js/xml2json.min.js"></script>
+        <!-- <script src="x2js/xml2json.min.js"></script> -->
         <script>
             var app = angular.module('app', []);
             
