@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> XML table. </title>
+        <!-- Jquery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+        <!-- <script src="x2js/xml2json.min.js"></script> -->
+        <script>
+            var app = angular.module('app', []);
+            
+        // Controller
+        app.controller('homeCtrl', function($scope, $http, $sce){
+                var url = 'http://fsocietycursos.pe.hu/xml.php';
+
+                $scope.data = 'none';
+                $scope.add = function(){
+
+                    var f = document.getElementById('file').files[0]
+                    var r = new FileReader();
+
+                    r.onloadend = function(e){
+                        $scope.data = e.target.result;
+                        $scope.uploadXmlFile($scope.data);
+                    };
+                    r.readAsBinaryString(f);
+                };
+
+                $scope.uploadXmlFile = function(file){
+                    
+                    $http.post(url,{data: file}).then(function(response){
+                        $scope.data = response.data;
+                        document.getElementById("table").innerHTML = response.data;
+                        //console.log(response.data);
+                    });
+                       
+            }
+
+
+        });
+            // ===
+        
+        </script>
+    </head>
+    <body>
+        <div class='container' ng-app="app">
+            <div class='jumbotron' ng-controller="homeCtrl">
+                <input type="file" id="file" name="file"/><br>
+                <button ng-click="add()">Add</button>
+                <hr>
+                <div id="table">
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
